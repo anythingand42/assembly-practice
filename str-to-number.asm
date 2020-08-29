@@ -2,20 +2,23 @@ global str_to_num
 
 section .text
 
+; only for natural numbers lower than 2^32
 ; [esb+8] - source str adress
 ; [esp+12] - str len
+; eax - result
+
 str_to_num:
         push ebp
         mov ebp, esp
-        sub esp, 8
 
+        sub esp, 8
         mov eax, [ebp+12]
         dec eax
-        mov [ebp-8], eax                ; strlen - 1
         mov dword [ebp-4], 0            ; accum
+        mov [ebp-8], eax                ; strlen - 1
 
-        mov esi, [ebp+8]        ; source str address
-        xor ecx, ecx            ; ptr
+        mov esi, [ebp+8]                ; source str address
+        xor ecx, ecx                    ; ptr
         mov ebx, 10
 
 .handle_digit:
