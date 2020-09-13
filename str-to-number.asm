@@ -4,6 +4,7 @@ global str_to_num
 ; [esp+8] - source str adress
 ; [esp+12] - str len
 ; eax - result
+; ebx - error flag (0 - success, 1 - error)
 
 section .text
 

@@ -2,6 +2,8 @@ global rand
 
 ; read random bytes from /dev/random and write them to eax
 ; [esp+8] - number of bytes (1 <= x <= 4)
+; eax - result
+; ebx - error flag (0 - success, 1 - error)
 
 section .text
 
@@ -15,6 +17,9 @@ rand:
     mov eax, 5
     int 80h
 
+    cmp eax, 0          ; check opening errors
+    jl .error
+
     ; read
     push dword 0        ; the stack is buffer
     mov edx, [ebp+8]
@@ -23,8 +28,17 @@ rand:
     mov eax, 3
     int 80h
 
+    cmp eax, [ebp+8]    ; check number of read bytes
+    jne .error
+
     pop eax
 
+.error:
+    mov ebx, 1
+    jmp .quit
+.success:
+    xor ebx, ebx
+.quit:
     mov esp, ebp
     pop ebp
     ret
