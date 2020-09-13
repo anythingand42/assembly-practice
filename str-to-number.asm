@@ -1,11 +1,11 @@
 global str_to_num
 
-section .text
-
 ; only for natural numbers lower than 2^32
-; [esb+8] - source str adress
+; [esp+8] - source str adress
 ; [esp+12] - str len
 ; eax - result
+
+section .text
 
 str_to_num:
         push ebp

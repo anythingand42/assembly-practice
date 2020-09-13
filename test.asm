@@ -1,12 +1,12 @@
 global _start
 
 extern str_to_num
+extern rand
 
 section .text
 _start:
-        push str_len
-        push msg
-        call str_to_num
+        push 1
+        call rand
 lalala:
         mov ebx, 0
         mov eax, 1
