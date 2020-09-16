@@ -21,7 +21,7 @@ rand:
     jl .error
 
     ; read
-    push dword 0        ; use stack as a buffer
+    push 0              ; use stack as a buffer
     mov edx, [ebp+8]
     mov ecx, esp
     mov ebx, eax

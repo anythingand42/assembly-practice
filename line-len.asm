@@ -17,6 +17,8 @@ line_len:
 .handle_symbol:
     cmp [ebx+eax], cl
     je .quit
+    cmp byte [ebx+eax], 0
+    je .quit
     inc eax
     jmp short .handle_symbol
 
