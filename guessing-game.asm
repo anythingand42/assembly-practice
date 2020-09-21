@@ -18,8 +18,8 @@ _start:
     mov dword [ebp-8], 0    ; attempt counter
 
     ; print greeting
-    mov edx, greeting
-    mov ecx, greeting_len
+    mov edx, greeting_len
+    mov ecx, greeting
     mov ebx, 1
     mov eax, 4
     int 80h
@@ -52,8 +52,8 @@ _start:
     jmp .quit
 
 .cant_read:
-    mov edx, msg_readerr
-    mov ecx, msg_readerr_len
+    mov edx, msg_readerr_len
+    mov ecx, msg_readerr
     mov ebx, 1
     mov eax, 4
     int 80h
