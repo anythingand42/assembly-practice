@@ -32,6 +32,7 @@ rand:
     jne .error
 
     pop eax
+    jmp .success
 
 .error:
     mov ebx, 1
