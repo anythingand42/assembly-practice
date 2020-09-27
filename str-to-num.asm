@@ -1,8 +1,8 @@
 global str_to_num
 
 ; only for natural numbers lower than 2^32
-; [esp+8] - source str adress
 ; [esp+12] - str len
+; [esp+8] - source str address
 ; eax - result
 ; ebx - error flag (0 - success, 1 - error)
 
