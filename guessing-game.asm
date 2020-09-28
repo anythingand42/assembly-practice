@@ -1,6 +1,7 @@
 global _start
 
 extern str_to_num
+extern num_to_str
 extern rand
 extern line_len
 
@@ -27,8 +28,7 @@ _start:
     mov [ebp-4], eax        ; hidden number
     mov dword [ebp-8], 0    ; attempt counter
 
-    ; print greeting
-    mov edx, greeting_len
+    mov edx, greeting_len   ; print greeting
     mov ecx, greeting
     mov ebx, 1
     mov eax, 4
@@ -60,7 +60,7 @@ _start:
     cmp ebx, 0
     jne .cant_read
 
-    add dword [ebp-8], 1
+    inc dword [ebp-8]
     cmp [ebp-4], eax
     ja .try_more
     cmp [ebp-4], eax
@@ -71,8 +71,24 @@ _start:
     mov ebx, 1
     mov eax, 4
     int 80h
-    mov ecx, [ebp-8]
-.metka:
+
+    push counter_buf
+    push dword [ebp-8]
+    call num_to_str
+    add esp, 8
+
+    mov edx, eax
+    mov ecx, counter_buf
+    mov ebx, 1
+    mov eax, 4
+    int 80h
+
+    mov edx, msg_attempts_len
+    mov ecx, msg_attempts
+    mov ebx, 1
+    mov eax, 4
+    int 80h
+
     jmp .quit
 
 .try_less:
@@ -134,5 +150,9 @@ msg_readerr_len  equ    $-msg_readerr
 msg_randerr      db     "error reading /dev/random", 10
 msg_randerr_len  equ    $-msg_randerr
 
+msg_attempts     db     " attempts", 10
+msg_attempts_len equ    $-msg_attempts
+
 section .bss
 i_buf        resb   I_BUF_SIZE
+counter_buf  resb   11

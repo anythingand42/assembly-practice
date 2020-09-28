@@ -1,7 +1,7 @@
 global num_to_str
 
 ; only for natural numbers lower than 2^32
-; [esp+12] - destination str address (should be at least 11 byte)
+; [esp+12] - destination str address (should be at least 11 bytes)
 ; [esp+8] - source num (32 bit)
 ; eax - number of bytes written
 ; ebx - error flag (0 - success, 1 - error)
@@ -20,6 +20,7 @@ num_to_str:
     xor ecx, ecx                ; digit's counter
 
 .find_start_divider:
+    xor edx, edx
     mov eax, [ebp-4]
     mov esi, ebx
     div esi
@@ -40,10 +41,12 @@ num_to_str:
     add eax, '0'
 
     mov [edi+ecx], eax
-    mov [ebp-4], edx
+    inc ecx
 
-    cmp edx, 0
+    cmp edx, 0                  ; check remainder
     je .success
+
+    mov [ebp-4], edx
 
     xor edx, edx                ; divide ebx by 10
     mov eax, ebx
@@ -51,13 +54,13 @@ num_to_str:
     div esi
     mov ebx, eax
 
-    inc ecx
     jmp .handle_digit
 
 .error:
     mov ebx, 1
     jmp .quit
 .success:
+    mov eax, ecx                ; return number of written bytes
     xor ebx, ebx
 .quit:
     mov esp, ebp
