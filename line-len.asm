@@ -1,28 +1,24 @@
 global line_len
 
-; [esp+12] - end of line byte
-; [esp+8] - line adress
+; [esp+8] - end of line byte
+; [esp+4] - line adress
 ; eax - result
 
 section .text
 
 line_len:
-    push ebp
-    mov ebp, esp
-
     xor eax, eax
-    mov ebx, [ebp+8]
-    mov ecx, [ebp+12]
+    mov edx, [esp+4]
+    mov ecx, [esp+8]
 
 .handle_symbol:
-    cmp [ebx+eax], cl
+    cmp [edx+eax], cl
     je .quit
-    cmp byte [ebx+eax], 0
+    cmp byte [edx+eax], 0
     je .quit
     inc eax
     jmp short .handle_symbol
 
 .quit:
-    pop ebp
     ret
 
