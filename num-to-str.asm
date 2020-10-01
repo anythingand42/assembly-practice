@@ -4,7 +4,6 @@ global num_to_str
 ; [esp+12] - destination str address (should be at least 11 bytes)
 ; [esp+8] - source num (32 bit)
 ; eax - number of bytes written
-; ebx - error flag (0 - success, 1 - error)
 
 section .text
 
@@ -13,6 +12,10 @@ num_to_str:
     mov ebp, esp
 
     sub esp, 4
+    push ebx
+    push esi
+    push edi
+
     mov eax, [ebp+8]
     mov [ebp-4], eax            ; source num
     mov edi, [ebp+12]           ; destination str
@@ -56,13 +59,11 @@ num_to_str:
 
     jmp .handle_digit
 
-.error:
-    mov ebx, 1
-    jmp .quit
 .success:
     mov eax, ecx                ; return number of written bytes
-    xor ebx, ebx
-.quit:
+    pop edi
+    pop esi
+    pop ebx
     mov esp, ebp
     pop ebp
     ret
