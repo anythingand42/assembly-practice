@@ -1,15 +1,15 @@
 global rand
 
 ; read random bytes from /dev/random and write them to eax
-; [esp+8] - number of bytes (1 <= x <= 4)
-; eax - result
-; ebx - error flag (0 - success, 1 - error)
+; [esp+8] - number of bytes (1 <= x <= 3)
+; eax - result (-1 if error)
 
 section .text
 
 rand:
     push ebp
     mov ebp, esp
+    push ebx
 
     ; open /dev/random
     mov ecx, 0          ; read only
@@ -32,14 +32,13 @@ rand:
     jne .error
 
     pop eax
-    jmp .success
+    jmp .quit
 
 .error:
-    mov ebx, 1
+    mov eax, -1
     jmp .quit
-.success:
-    xor ebx, ebx
 .quit:
+    pop ebx
     mov esp, ebp
     pop ebp
     ret

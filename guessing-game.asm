@@ -13,8 +13,8 @@ _start:
     call rand
     add esp, 4
 
-    cmp ebx, 0
-    je .rand_ok
+    cmp eax, 0
+    jne .rand_ok
     mov edx, msg_randerr_len
     mov ecx, msg_randerr
     mov ebx, 1
