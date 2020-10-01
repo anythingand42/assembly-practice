@@ -57,8 +57,8 @@ _start:
     call str_to_num
     add esp, 8
 
-    cmp ebx, 0
-    jne .cant_read
+    cmp eax, -1
+    je .cant_read
 
     inc dword [ebp-8]
     cmp [ebp-4], eax

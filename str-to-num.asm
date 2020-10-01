@@ -1,10 +1,9 @@
 global str_to_num
 
-; only for natural numbers lower than 2^32
+; only for natural numbers lower than (2^32/2)-1
 ; [esp+12] - str len
 ; [esp+8] - source str address
-; eax - result
-; ebx - error flag (0 - success, 1 - error)
+; eax - result (-1 if error)
 
 section .text
 
@@ -13,6 +12,10 @@ str_to_num:
         mov ebp, esp
 
         sub esp, 8
+        push ebx
+        push esi
+        push edi
+
         mov eax, [ebp+12]
         dec eax
         mov dword [ebp-4], 0            ; accum
@@ -49,14 +52,15 @@ str_to_num:
 
 .end:
         mov eax, [ebp-4]
-        jmp .success
+        jmp .quit
 
 .error:
-        mov ebx, 1
+        mov eax, -1
         jmp .quit
-.success:
-        xor ebx, ebx
 .quit:
+        pop edi
+        pop esi
+        pop ebx
         mov esp, ebp
         pop ebp
         ret
