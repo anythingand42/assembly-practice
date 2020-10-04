@@ -1,7 +1,7 @@
 global rand
 
 ; read random bytes from /dev/random and write them to eax
-; [esp+8] - number of bytes (1 <= x <= 3)
+; [esp+4] - number of bytes (1 <= x <= 3)
 ; eax - result (-1 if error)
 
 section .text

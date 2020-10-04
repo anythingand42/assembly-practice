@@ -1,8 +1,8 @@
 global str_to_num
 
 ; only for natural numbers lower than (2^32/2)-1
-; [esp+12] - str len
-; [esp+8] - source str address
+; [esp+8] - str len
+; [esp+4] - source str address
 ; eax - result (-1 if error)
 
 section .text

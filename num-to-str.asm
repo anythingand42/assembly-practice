@@ -1,8 +1,8 @@
 global num_to_str
 
 ; only for natural numbers lower than 2^32
-; [esp+12] - destination str address (should be at least 11 bytes)
-; [esp+8] - source num (32 bit)
+; [ebp+8] - destination str address (should be at least 11 bytes)
+; [esp+12] - source num (32 bit)
 ; eax - number of bytes written
 
 section .text
